@@ -1,3 +1,7 @@
+:root {
+  --bg-primary: #3f9cb1;
+}
+
 *,
 ::after,
 ::before {
@@ -17,7 +21,6 @@ a {
 }
 
 body {
-  background: #f4f7f9;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -34,11 +37,45 @@ body {
   height: 100% !important;
 }
 
+.login {
+  background: var(--bg-primary);
+  width: inherit;
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login .container {
+  background: #ffffffd1;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.login input {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background: #ffffffd1;
+}
+
+.login a button {
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+  background: #79797936;
+  cursor: pointer;
+}
+
+.login a button:hover {
+  background: #ffffff;
+}
+
 .wasap {
   display: flex;
   width: inherit;
   height: inherit;
-  background: #3f9cb1;
+  background: var(--bg-primary);
 }
 
 .sidebar {
