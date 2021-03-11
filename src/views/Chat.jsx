@@ -6,6 +6,8 @@ import { Wrapper } from '../components/Wrapper'
 import { Footer } from '../components/Footer'
 import { Sidebar } from '../components/Sidebar'
 
+const ENDPOINT = 'https://academlo-chat.herokuapp.com/'
+
 let socket
 
 export const Chat = ({ location }) => {
@@ -14,12 +16,13 @@ export const Chat = ({ location }) => {
     const [users, setUsers] = useState('')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
-    const ENDPOINT = 'https://academlo-chat.herokuapp.com/'
 
     useEffect(() => {
         const { name, room } = queryString.parse(location.search)
 
-        socket = io(ENDPOINT)
+        socket = io(ENDPOINT, {
+            transports: ['websocket'], upgrade: false
+        })
 
         setRoom(room)
         setName(name)
@@ -30,7 +33,24 @@ export const Chat = ({ location }) => {
             }
         })
 
-    }, [ENDPOINT, location.search])
+        socket.on("connect", () => {
+            console.log(socket.id)
+        })
+
+        console.log(socket.connected)
+        socket.on('error', function () {
+            console.log("Sorry, there seems to be an issue with the connection!")
+        })
+
+        socket.on('connect_error', function (err) {
+            console.log("connect failed" + err)
+        })
+
+        socket.on('connection', function () {
+            console.log("connected")
+        })
+
+    }, [location.search])
 
     useEffect(() => {
         socket.on('message', (message) => {
@@ -46,7 +66,7 @@ export const Chat = ({ location }) => {
         event.preventDefault()
 
         if (message) {
-            socket.emit('handleMessage', message, () => setMessage(''))
+            socket.emit('setMessage', message, () => setMessage(''))
         }
     }
 
