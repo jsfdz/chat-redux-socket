@@ -33,28 +33,11 @@ export const Chat = ({ location }) => {
             }
         })
 
-        socket.on("connect", () => {
-            console.log(socket.id)
-        })
-
-        console.log(socket.connected)
-        socket.on('error', function () {
-            console.log("Sorry, there seems to be an issue with the connection!")
-        })
-
-        socket.on('connect_error', function (err) {
-            console.log("connect failed" + err)
-        })
-
-        socket.on('connection', function () {
-            console.log("connected")
-        })
-
     }, [location.search])
 
     useEffect(() => {
         socket.on('message', (message) => {
-            setMessages((msgs) => [...msgs, message])
+            setMessages((messages) => [...messages, message])
         })
 
         socket.on('roomData', ({ users }) => {
@@ -66,7 +49,7 @@ export const Chat = ({ location }) => {
         event.preventDefault()
 
         if (message) {
-            socket.emit('setMessage', message, () => setMessage(''))
+            socket.emit('sendMessage', message, () => setMessage(''))
         }
     }
 
